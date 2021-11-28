@@ -8,7 +8,7 @@ import javafx.stage.StageStyle;
 public class OrderView {
 	private Stage stage = new Stage();		
 		
-	public OrderView(){			
+	public OrderView() {
 		stage.setTitle("ORDER VIEW");
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setX(20);

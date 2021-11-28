@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import view.panels.SandwichOverviewPane;
 
 public class AdminMainPane extends BorderPane {
-	public AdminMainPane(){		
+	public AdminMainPane() {
 	    TabPane tabPane = new TabPane(); 	    
         //Tab spelVerloopTab = new Tab("Spelverloop");
         SandwichOverviewPane sandwichOverviewPane = new SandwichOverviewPane();

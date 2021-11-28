@@ -9,7 +9,7 @@ import javafx.stage.StageStyle;
 public class AdminView {
 	private Stage stage = new Stage();		
 		
-	public AdminView(){			
+	public AdminView() {
 		stage.setTitle("ADMIN VIEW");
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setX(680);

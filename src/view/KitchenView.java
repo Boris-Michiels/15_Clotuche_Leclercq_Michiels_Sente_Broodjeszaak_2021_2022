@@ -9,7 +9,7 @@ public class KitchenView {
 	
 	private Stage stage = new Stage();		
 	
-	public KitchenView(){			
+	public KitchenView() {
 		stage.setTitle("KITCHEN VIEW");
 		stage.initStyle(StageStyle.UTILITY);
 		stage.setX(680);
