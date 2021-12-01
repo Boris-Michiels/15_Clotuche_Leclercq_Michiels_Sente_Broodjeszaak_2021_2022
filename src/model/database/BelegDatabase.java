@@ -3,15 +3,22 @@ package model.database;
 import model.Beleg;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 public class BelegDatabase {
+    private static BelegDatabase instance;
     private static Map<String, Beleg> beleg;
 
-    public BelegDatabase() {
-        beleg = new BelegTekstLoadSave().ReadFile("src/bestanden/beleg.txt");
+    public static BelegDatabase getInstance() {
+        if (instance == null) instance = new BelegDatabase();
+        return instance;
     }
 
-    public static Map<String, Beleg> getBeleg() {
+    private BelegDatabase() {
+        beleg = new TreeMap<>();
+    }
+
+    public Map<String, Beleg> getBeleg() {
         return beleg;
     }
 

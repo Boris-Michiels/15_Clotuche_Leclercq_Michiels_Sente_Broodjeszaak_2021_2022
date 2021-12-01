@@ -14,8 +14,8 @@ import model.database.BroodjesDatabase;
 
 
 public class SandwichOverviewPane extends GridPane{
-	private BroodjesDatabase broodjesDatabase = new BroodjesDatabase();
-	private BelegDatabase belegDatabase = new BelegDatabase();
+	private BroodjesDatabase broodjesDatabase = BroodjesDatabase.getInstance();
+	private BelegDatabase belegDatabase = BelegDatabase.getInstance();
 	private TableView<Broodje> BroodjesTable = new TableView<Broodje>();
 	private TableView<Beleg> BelegTable = new TableView<Beleg>();
 
