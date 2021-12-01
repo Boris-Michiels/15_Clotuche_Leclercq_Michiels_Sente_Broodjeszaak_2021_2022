@@ -1,10 +1,8 @@
 package model.database.loadSaveStrategies;
 
-import model.database.BroodjesDatabase;
+import java.util.Map;
 
-public interface LoadSaveStrategy {
-    public load();
-
-    public save();
-
+public interface LoadSaveStrategy <K,V> {
+    Map<K,V> load(String path);
+    void save(String path, Map<K,V> objects);
 }

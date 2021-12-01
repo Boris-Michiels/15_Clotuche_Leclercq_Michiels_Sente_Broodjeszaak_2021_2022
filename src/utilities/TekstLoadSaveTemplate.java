@@ -1,7 +1,5 @@
 package utilities;
 
-import model.Product;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -33,7 +31,7 @@ public abstract class TekstLoadSaveTemplate <K,V> {
             FileWriter fileWriter = new FileWriter(file);
             List<V> products = (ArrayList<V>) objects.values();
             for (V v : products) {
-                fileWriter.write(((Product) v).toTxtLine());
+                fileWriter.write(makeString(v));
             }
         } catch (IOException e) {
             System.out.println(e);

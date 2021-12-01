@@ -3,7 +3,7 @@ package model.database.loadSaveStrategies;
 import model.Broodje;
 import utilities.TekstLoadSaveTemplate;
 
-public class BroodjesTekstLoadSaveStrategy extends TekstLoadSaveTemplate implements LoadSaveStrategy{
+public class BroodjesTekstLoadSaveStrategy extends TekstLoadSaveTemplate implements LoadSaveStrategy {
     @Override
     public Object getKey(String[] s) {
         return s[0];
