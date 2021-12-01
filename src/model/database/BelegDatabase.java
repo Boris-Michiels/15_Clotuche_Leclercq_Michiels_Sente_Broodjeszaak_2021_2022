@@ -1,6 +1,7 @@
 package model.database;
 
 import model.Beleg;
+import model.database.loadSaveStrategies.BelegTekstLoadSaveStrategy;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,6 +12,7 @@ public class BelegDatabase {
 
     public static BelegDatabase getInstance() {
         if (instance == null) instance = new BelegDatabase();
+        setBeleg(new BelegTekstLoadSaveStrategy().load("src/bestanden/beleg.txt"));
         return instance;
     }
 
@@ -18,11 +20,11 @@ public class BelegDatabase {
         beleg = new TreeMap<>();
     }
 
-    public Map<String, Beleg> getBeleg() {
+    public static Map<String, Beleg> getBeleg() {
         return beleg;
     }
 
-    public void setBeleg(Map<String, Beleg> beleg) {
-        this.beleg = beleg;
+    public static void setBeleg(Map<String, Beleg> beleg) {
+        BelegDatabase.beleg = new TreeMap<>(beleg);
     }
 }

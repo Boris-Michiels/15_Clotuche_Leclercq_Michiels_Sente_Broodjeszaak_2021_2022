@@ -1,6 +1,6 @@
 package utilities;
 
-import model.Broodje;
+import model.Product;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +10,7 @@ import java.util.*;
 
 public abstract class TekstLoadSaveTemplate <K,V> {
     public final Map<K,V> load(String path) {
-        Map<K,V> objects = new HashMap<>();
+        Map<K,V> products = new HashMap<>();
         try {
             File file = new File(path);
             Scanner scanner = new Scanner(file);
@@ -19,21 +19,21 @@ public abstract class TekstLoadSaveTemplate <K,V> {
                 String[] dataSet = line.split(",");
                 K key = getKey(dataSet);
                 V object = makeObject(dataSet);
-                objects.put(key, object);
+                products.put(key, object);
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
-        return objects;
+        return products;
     }
 
-    public final void save(String path, List<String[]> objectStrings) {
+    public final void save(String path, Map<K,V> objects) {
         try {
             File file = new File(path);
             FileWriter fileWriter = new FileWriter(file);
-            List<Broodje> broodjes = (ArrayList<Broodje>) map.values();
-            for (Broodje b: broodjes) {
-                fileWriter.write(b.toTxtLine());
+            List<V> products = (ArrayList<V>) objects.values();
+            for (V v : products) {
+                fileWriter.write(((Product) v).toTxtLine());
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -43,4 +43,6 @@ public abstract class TekstLoadSaveTemplate <K,V> {
     public abstract K getKey(String[] s);
 
     public abstract V makeObject(String[] s);
+
+    public abstract String makeString(V v);
 }
