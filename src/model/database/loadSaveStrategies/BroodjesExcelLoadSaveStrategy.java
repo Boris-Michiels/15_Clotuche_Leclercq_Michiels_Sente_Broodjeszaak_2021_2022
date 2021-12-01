@@ -3,7 +3,7 @@ package model.database.loadSaveStrategies;
 import model.Broodje;
 import utilities.ExcelLoadSaveTemplate;
 
-public class BroodjesExcelLoadSaveStrategy extends ExcelLoadSaveTemplate {
+public class BroodjesExcelLoadSaveStrategy extends ExcelLoadSaveTemplate implements LoadSaveStrategy{
 
 
     @Override
