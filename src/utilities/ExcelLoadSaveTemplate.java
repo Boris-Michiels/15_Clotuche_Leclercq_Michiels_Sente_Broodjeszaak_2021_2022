@@ -2,13 +2,13 @@ package utilities;
 
 import excel.ExcelPlugin;
 import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class ExcelLoadSaveTemplate <K,V> {
@@ -32,14 +32,14 @@ public abstract class ExcelLoadSaveTemplate <K,V> {
     }
 
     public final void save(String path, Map<K,V> objects) {
+        ArrayList<ArrayList<String>> products = new ArrayList<>();
         try {
             File file = new File(path);
-            FileWriter fileWriter = new FileWriter(file);
-            List<V> products = (ArrayList<V>) objects.values();
-            for (V v : products) {
-                fileWriter.write(makeString(v));
+            for (V v : objects.values()) {
+                products.add(new ArrayList<>(Arrays.asList(makeString(v).split(","))));
             }
-        } catch (IOException e) {
+            excelPlugin.write(file, products);
+        } catch (IOException | BiffException | WriteException e) {
             System.out.println(e);
         }
     }

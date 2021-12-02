@@ -29,8 +29,7 @@ public abstract class TekstLoadSaveTemplate <K,V> {
         try {
             File file = new File(path);
             FileWriter fileWriter = new FileWriter(file);
-            List<V> products = (ArrayList<V>) objects.values();
-            for (V v : products) {
+            for (V v : objects.values()) {
                 fileWriter.write(makeString(v));
             }
         } catch (IOException e) {
