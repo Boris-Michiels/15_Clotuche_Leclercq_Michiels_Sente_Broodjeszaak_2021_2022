@@ -4,13 +4,14 @@ package view;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import model.database.DataBaseContext;
 import view.panels.SandwichOverviewPane;
 
 public class AdminMainPane extends BorderPane {
-	public AdminMainPane() {
+	public AdminMainPane(DataBaseContext dataBaseContext) {
 	    TabPane tabPane = new TabPane(); 	    
         //Tab spelVerloopTab = new Tab("Spelverloop");
-        SandwichOverviewPane sandwichOverviewPane = new SandwichOverviewPane();
+        SandwichOverviewPane sandwichOverviewPane = new SandwichOverviewPane(dataBaseContext);
         Tab broodjesTab = new Tab("Broodjes/Beleg",sandwichOverviewPane);
         Tab instellingTab = new Tab("Instellingen");
         Tab statistiekTab = new Tab("Statistieken");
