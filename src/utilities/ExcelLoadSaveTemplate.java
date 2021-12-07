@@ -25,8 +25,8 @@ public abstract class ExcelLoadSaveTemplate <K,V> {
                 V object = makeObject(dataSet);
                 objects.put(key, object);
             }
-        } catch (BiffException | IOException i) {
-            System.out.println(i);
+        } catch (BiffException | IOException e) {
+            System.out.println(e);
         }
         return objects;
     }
