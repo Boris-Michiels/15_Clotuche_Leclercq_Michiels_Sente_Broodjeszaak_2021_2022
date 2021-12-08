@@ -7,7 +7,6 @@ import jxl.write.WriteException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public abstract class ExcelLoadSaveTemplate <K,V> {
         try {
             File file = new File(path);
             for (V v : objects.values()) {
-                products.add(new ArrayList<>(Arrays.asList(makeString(v).split(","))));
+                products.add(makeStringArray(v));
             }
             excelPlugin.write(file, products);
         } catch (IOException | BiffException | WriteException e) {
@@ -48,5 +47,5 @@ public abstract class ExcelLoadSaveTemplate <K,V> {
 
     public abstract V makeObject(String[] s);
 
-    public abstract String makeString(V v);
+    public abstract ArrayList<String> makeStringArray(V v);
 }

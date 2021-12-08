@@ -3,6 +3,9 @@ package model.database.loadSaveStrategies;
 import model.Beleg;
 import utilities.ExcelLoadSaveTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class BelegExcelLoadSaveStrategy extends ExcelLoadSaveTemplate implements LoadSaveStrategy {
     @Override
     public Object getKey(String[] s) {
@@ -15,7 +18,7 @@ public class BelegExcelLoadSaveStrategy extends ExcelLoadSaveTemplate implements
     }
 
     @Override
-    public String makeString(Object o) {
-        return ((Beleg) o).toTxtLine();
+    public ArrayList<String> makeStringArray(Object o) {
+        return new ArrayList<>(Arrays.asList(((Beleg) o).toTxtLine().split(",")));
     }
 }

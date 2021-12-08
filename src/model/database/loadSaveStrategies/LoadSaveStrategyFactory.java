@@ -12,6 +12,6 @@ public class LoadSaveStrategyFactory {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return loadSaveStrategy ;
+        return loadSaveStrategy;
     }
 }

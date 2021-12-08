@@ -44,10 +44,12 @@ public class DataBaseContext {
     }
 
     public void setBroodjesLoadSaveStrategy(String broodjesLoadSaveStrategyString) {
+        if (!broodjesLoadSaveStrategyString.contains("BROODJES")) throw new IllegalArgumentException("Geen broodjes load save strategy");
         this.broodjesLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy(broodjesLoadSaveStrategyString);
     }
 
     public void setBelegLoadSaveStrategy(String belegLoadSaveStrategyString) {
+        if (!belegLoadSaveStrategyString.contains("BELEG")) throw new IllegalArgumentException("Geen beleg load save strategy");
         this.belegLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy(belegLoadSaveStrategyString);
     }
 }
