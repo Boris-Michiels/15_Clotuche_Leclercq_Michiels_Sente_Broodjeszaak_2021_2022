@@ -3,27 +3,43 @@ package model.database;
 import model.Beleg;
 import model.Broodje;
 import model.database.loadSaveStrategies.LoadSaveStrategy;
+import model.database.loadSaveStrategies.LoadSaveStrategyEnum;
 import model.database.loadSaveStrategies.LoadSaveStrategyFactory;
 
 import java.util.Map;
 
 public class DataBaseContext {
+    private static DataBaseContext instance;
     private BroodjesDatabase broodjesDatabase;
     private BelegDatabase belegDatabase;
     private LoadSaveStrategy broodjesLoadSaveStrategy, belegLoadSaveStrategy;
+    private String broodjesFilePath, belegFilePath;
 
-    public DataBaseContext() {
+    private DataBaseContext() {
         this.broodjesDatabase = BroodjesDatabase.getInstance();
         this.belegDatabase = BelegDatabase.getInstance();
     }
 
+    public static DataBaseContext getInstance() {
+        if (instance == null) instance = new DataBaseContext();
+        return instance;
+    }
+
+    public void setLoadSaveStrategy(String strategy) {
+        if (strategy.equals("Excel")) {
+            setBroodjesLoadSaveStrategy("EXCEL");
+            setBelegLoadSaveStrategy("EXCEL");
+        } else if (strategy.equals("Tekst")) {
+            setBroodjesLoadSaveStrategy("TEKST");
+            setBelegLoadSaveStrategy("TEKST");
+        }
+    }
+
     public Map<String, Broodje> getBroodjes() {
-        loadBroodjes("src/bestanden/broodjes.txt");
         return broodjesDatabase.getBroodjes();
     }
 
     public Map<String, Beleg> getBeleg() {
-        loadBeleg("src/bestanden/beleg.txt");
         return belegDatabase.getBeleg();
     }
 
@@ -35,21 +51,26 @@ public class DataBaseContext {
         belegDatabase.setBeleg(beleg);
     }
 
-    public void loadBroodjes(String path) {
-        setBroodjes(broodjesLoadSaveStrategy.load(path));
+    public void loadProducts() {
+        loadBroodjes();
+        loadBeleg();
     }
 
-    public void loadBeleg(String path) {
-        setBeleg(belegLoadSaveStrategy.load(path));
+    public void loadBroodjes() {
+        setBroodjes(broodjesLoadSaveStrategy.load(broodjesFilePath));
+    }
+
+    public void loadBeleg() {
+        setBeleg(belegLoadSaveStrategy.load(belegFilePath));
     }
 
     public void setBroodjesLoadSaveStrategy(String broodjesLoadSaveStrategyString) {
-        if (!broodjesLoadSaveStrategyString.contains("BROODJES")) throw new IllegalArgumentException("Geen broodjes load save strategy");
-        this.broodjesLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy(broodjesLoadSaveStrategyString);
+        this.broodjesLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy("BROODJES" + broodjesLoadSaveStrategyString);
+        this.broodjesFilePath = LoadSaveStrategyEnum.valueOf("BROODJES" + broodjesLoadSaveStrategyString).getFilePath();
     }
 
     public void setBelegLoadSaveStrategy(String belegLoadSaveStrategyString) {
-        if (!belegLoadSaveStrategyString.contains("BELEG")) throw new IllegalArgumentException("Geen beleg load save strategy");
-        this.belegLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy(belegLoadSaveStrategyString);
+        this.belegLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy("BELEG" + belegLoadSaveStrategyString);
+        this.belegFilePath = LoadSaveStrategyEnum.valueOf("BELEG" + belegLoadSaveStrategyString).getFilePath();
     }
 }

@@ -11,21 +11,20 @@ import model.Beleg;
 import model.Broodje;
 import model.database.DataBaseContext;
 
-
-public class SandwichOverviewPane extends GridPane{
-	private DataBaseContext dataBaseContext;
-	private TableView<Broodje> BroodjesTable = new TableView<Broodje>();
-	private TableView<Beleg> BelegTable = new TableView<Beleg>();
+import java.util.ArrayList;
 
 
-	public SandwichOverviewPane(DataBaseContext dataBaseContext) {
-		this.dataBaseContext = dataBaseContext;
+public class SandwichOverviewPane extends GridPane {
+	private TableView<Broodje> BroodjesTable = new TableView<>();
+	private TableView<Beleg> BelegTable = new TableView<>();
+
+
+	public SandwichOverviewPane() {
 		this.setPadding(new Insets(5, 5, 5, 5));
         this.setVgap(5);
         this.setHgap(5);
 		this.add(new Label("Broodjes:"), 0, 0, 1, 1);
 		this.add(BroodjesTable, 0, 1, 2, 1);
-		BroodjesTable.setItems(FXCollections.observableArrayList(dataBaseContext.getBroodjes().values()));
 		TableColumn<Broodje,String> nameColumnBroodje = new TableColumn<Broodje,String>("Naam");
 		nameColumnBroodje.setCellValueFactory(new PropertyValueFactory<Broodje,String>("naam"));
 		TableColumn<Broodje,String> priceColumnBroodje = new TableColumn<Broodje,String>("Prijs");
@@ -36,7 +35,6 @@ public class SandwichOverviewPane extends GridPane{
 
 		this.add(new Label("Beleg:"), 0, 2, 1, 1);
 		this.add(BelegTable, 0, 3, 2, 1);
-		BelegTable.setItems(FXCollections.observableArrayList(dataBaseContext.getBeleg().values()));
 		TableColumn<Beleg,String> nameColumnBeleg = new TableColumn<Beleg,String>("Naam");
 		nameColumnBeleg.setCellValueFactory(new PropertyValueFactory<Beleg,String>("naam"));
 		TableColumn<Beleg,String> priceColumnBeleg = new TableColumn<Beleg,String>("Prijs");
@@ -44,7 +42,10 @@ public class SandwichOverviewPane extends GridPane{
 		TableColumn<Beleg,String> stockColumnBeleg = new TableColumn<Beleg,String>("Voorraad");
 		stockColumnBeleg.setCellValueFactory(new PropertyValueFactory<Beleg,String>("voorraad"));
 		BelegTable.getColumns().addAll(nameColumnBeleg,priceColumnBeleg,stockColumnBeleg);
+	}
 
-
+	public void updateDisplay(DataBaseContext dataBaseContext) {
+		BroodjesTable.setItems(FXCollections.observableArrayList(dataBaseContext.getBroodjes().values()));
+		BelegTable.setItems(FXCollections.observableArrayList(dataBaseContext.getBeleg().values()));
 	}
 }
