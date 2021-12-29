@@ -1,14 +1,13 @@
-package model;
+package model.BestelStates;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import model.Bestelling;
 
-
-public abstract class BestellingState {
+public class InBestelling extends BestellingState {
     private Bestelling bestelling;
+    @Override
     public void voegBestelLijnToe(String broodjenaam) {
         bestelling.voegBestelLijnToe(broodjenaam);
 
     }
-
 }
+
