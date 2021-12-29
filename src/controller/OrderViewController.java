@@ -1,13 +1,12 @@
 package controller;
 
-import model.Beleg;
-import model.Broodje;
+import model.*;
 import model.database.DataBaseService;
 import view.OrderView;
 
 import java.util.List;
 
-public class OrderViewController {
+public class OrderViewController implements Observer {
     private OrderView orderView;
     private DataBaseService dataBaseService;
 
@@ -29,5 +28,11 @@ public class OrderViewController {
 
     public List<Beleg> getAvailableBeleg() {
         return dataBaseService.getAvailableBeleg();
+    }
+
+    @Override
+    public void update(BestellingEvents e) {
+
+
     }
 }
