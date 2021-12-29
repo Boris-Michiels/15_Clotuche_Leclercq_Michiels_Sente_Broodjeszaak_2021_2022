@@ -29,6 +29,14 @@ public class BestelLijn {
         return namenbeleg;
     }
 
+    public String getBelegString() {
+        StringBuilder out = new StringBuilder();
+        for (String s : namenbeleg) {
+            out.append(s).append(", ");
+        }
+        return (out.toString().length() > 0) ? out.toString().substring(0, out.toString().length() - 2) : null;
+    }
+
     public void setNaambroodje(String naambroodje) {
         this.naambroodje = naambroodje;
     }
@@ -37,8 +45,9 @@ public class BestelLijn {
         this.namenbeleg = namenbeleg;
     }
 
-    public void addBeleg(String beleg) {
-        namenbeleg.add(beleg);
+    public void addBeleg(Beleg beleg) {
+        namenbeleg.add(beleg.getNaam());
+        setPrijs(prijs + beleg.getVerkoopprijs());
     }
 
     @Override

@@ -17,17 +17,20 @@ public class BestelFacade implements Subject {
 
     public void nieuweBestelling() {
         this.bestelling = new Bestelling();
+        //notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 
     public void addBroodje(Broodje broodje) {
         if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
         bestelling.voegBestelLijnToe(broodje);
+        //notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 
-    public void addBeleg(String beleg) {
+    public void addBeleg(Beleg beleg) {
         if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
         if (bestelling.getBestelLijn() == null) throw new IllegalArgumentException("Voeg eerst een broodje toe");
         bestelling.addBeleg(beleg);
+        //notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 
     public Bestelling getBestelling() {
@@ -51,7 +54,7 @@ public class BestelFacade implements Subject {
     @Override
     public void notifyObservers(BestellingEvents e) {
         for (Observer o : observers.get(e)) {
-            o.update(e);
+            o.update();
         }
     }
 }

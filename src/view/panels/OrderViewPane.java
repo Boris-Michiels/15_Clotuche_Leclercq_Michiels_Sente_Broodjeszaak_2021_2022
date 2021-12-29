@@ -1,16 +1,16 @@
 package view.panels;
 
 import controller.OrderViewController;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Beleg;
+import model.BestelLijn;
 import model.Broodje;
 
 import java.util.ArrayList;
@@ -19,9 +19,12 @@ import java.util.List;
 public class OrderViewPane extends GridPane {
     private Button bestelling;
     private Label volgnr;
+    private Label aantal;
     private ComboBox<String> promo;
     private HBox top, brood, beleg;
     private VBox menu;
+    private TableView bestellijnTable;
+    TableColumn<BestelLijn, String> broodjesColumn, belegColumn;
     private OrderViewController orderViewController;
 
     public OrderViewPane() {
@@ -52,30 +55,20 @@ public class OrderViewPane extends GridPane {
         beleg.setSpacing(10);
         menu.getChildren().addAll(brood, beleg);
 
-        //BroodjesTable = new TableView<>();
+        aantal = new Label("Aantal broodjes: 0");
+        this.add(aantal, 0, 2);
 
-        Button test = new Button("print");
+        bestellijnTable = new TableView<>();
+        this.add(bestellijnTable, 0, 3);
+        broodjesColumn = new TableColumn<>("Broodje");
+        broodjesColumn.setCellValueFactory(new PropertyValueFactory<>("naambroodje"));
+        belegColumn = new TableColumn<>("Beleg");
+        belegColumn.setCellValueFactory(new PropertyValueFactory<>("belegString"));
+        //bestellijnTable.getColumns().setAll(broodjesColumn, belegColumn);
+
+        /*Button test = new Button("print");
         test.setOnAction(event -> orderViewController.test());
-        this.add(test, 0, 2);
-
-
-        VBox NBestelling = new VBox(40);
-        NBestelling.setAlignment(Pos.TOP_LEFT);
-        Label type = new Label("Nieuwe Bestelling");
-        ////
-        VBox bestelOpties = new VBox(40);
-        bestelOpties.setAlignment(Pos.TOP_RIGHT);
-        ComboBox<String> promotie = new ComboBox<>();
-        promotie.getItems().addAll("Test", "Goedkoopste broodje gratis");
-        ////
-
-        VBox beleg = new VBox(400);
-        //beleg.setBackground(new Background(new BackgroundFill(new Color(0, 10, 50, 10))));
-        VBox AantalBroodjes = new VBox(40);
-        NBestelling.setAlignment(Pos.CENTER_LEFT);
-        Label aantal_broodjes = new Label("Aantal broodjes");
-        HBox broodjesbox = new HBox(100);
-        HBox belegbox = new HBox(100);
+        this.add(test, 0, 4);*/
     }
 
     private void generateBroodButtonsList(HBox brood) {
@@ -85,7 +78,7 @@ public class OrderViewPane extends GridPane {
             button.setOnAction(event -> orderViewController.addBroodje(button.getText()));
             broodButtonList.add(button);
         }
-        brood.getChildren().addAll(broodButtonList);
+        brood.getChildren().setAll(broodButtonList);
     }
 
     private void generateBelegButtonList(HBox beleg) {
@@ -95,7 +88,7 @@ public class OrderViewPane extends GridPane {
             button.setOnAction(event -> orderViewController.addBeleg(button.getText()));
             belegButtonList.add(button);
         }
-        beleg.getChildren().addAll(belegButtonList);
+        beleg.getChildren().setAll(belegButtonList);
     }
 
     public void setVolgnr(String s) {
@@ -103,7 +96,10 @@ public class OrderViewPane extends GridPane {
     }
 
     public void updateDisplay() {
-
+        bestellijnTable.setItems(FXCollections.observableArrayList(orderViewController.getBestelLijnen()));
+        setAantal(orderViewController.getBestelLijnen().size());
+        populateMenu();
+        bestellijnTable.getColumns().setAll(broodjesColumn, belegColumn);
     }
 
     public void setOrderViewController(OrderViewController orderViewController) {
@@ -113,5 +109,9 @@ public class OrderViewPane extends GridPane {
     public void populateMenu() {
         generateBroodButtonsList(brood);
         generateBelegButtonList(beleg);
+    }
+
+    public void setAantal(int aantal) {
+        this.aantal.setText("Aantal broodjes: " + aantal);
     }
 }

@@ -1,13 +1,15 @@
 package controller;
 
 import model.Beleg;
+import model.BestellingEvents;
 import model.Broodje;
+import model.Observer;
 import model.database.DataBaseService;
 import view.AdminView;
 
 import java.util.Map;
 
-public class AdminViewController {
+public class AdminViewController implements Observer {
     private AdminView adminView;
     private DataBaseService dataBaseService;
 
@@ -24,10 +26,6 @@ public class AdminViewController {
         dataBaseService.setLoadSaveStrategy(loadSaveStrategy);
     }
 
-    public void update() {
-        adminView.updateDisplay();
-    }
-
     public void loadProducts() {
         dataBaseService.loadProducts();
     }
@@ -38,5 +36,10 @@ public class AdminViewController {
 
     public Map<String, Beleg> getBeleg() {
         return dataBaseService.getBeleg();
+    }
+
+    @Override
+    public void update() {
+        adminView.updateDisplay();
     }
 }

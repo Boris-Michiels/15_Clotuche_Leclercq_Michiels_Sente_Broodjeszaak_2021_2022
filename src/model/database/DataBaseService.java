@@ -93,7 +93,12 @@ public class DataBaseService {
     }
 
     public void useBroodje(String broodje) {
-        Broodje b = broodjesDatabase.getBroodjes().get(broodje);
+        Broodje b = getBroodje(broodje);
+        b.setVoorraad(b.getVoorraad() - 1);
+    }
+
+    public void useBeleg(String beleg) {
+        Beleg b = getBeleg(beleg);
         b.setVoorraad(b.getVoorraad() - 1);
     }
 }

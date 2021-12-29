@@ -1,9 +1,10 @@
 package model.BestelStates;
 
-public class InWacht extends BestellingState {
+import model.Broodje;
 
+public class InWacht extends BestellingState {
     @Override
-    public void voegBestelLijnToe(String broodjenaam) {
+    public void voegBestelLijnToe(Broodje broodje) {
         throw new IllegalArgumentException("Bestelling in wacht");
     }
 }

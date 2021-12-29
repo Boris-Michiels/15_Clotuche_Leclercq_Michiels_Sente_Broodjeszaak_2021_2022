@@ -11,7 +11,7 @@ public class Bestelling {
         bestellijnen.add(bestelLijn);
     }
 
-    public void addBeleg(String beleg) {
+    public void addBeleg(Beleg beleg) {
         bestelLijn.addBeleg(beleg);
     }
 

@@ -4,6 +4,7 @@ import model.*;
 import model.database.DataBaseService;
 import view.OrderView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderViewController implements Observer {
@@ -18,7 +19,7 @@ public class OrderViewController implements Observer {
         this.orderView.populateMenu();
         bestelFacade = new BestelFacade();
         bestelFacade.addObserver(BestellingEvents.TOEVOEGEN_BROODJE, this);
-        update();
+        //update();
     }
 
     public void nieuweBestelling() {
@@ -29,6 +30,7 @@ public class OrderViewController implements Observer {
         try {
             bestelFacade.addBroodje(dataBaseService.getBroodje(broodje));
             dataBaseService.useBroodje(broodje);
+            bestelFacade.notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }
@@ -36,14 +38,16 @@ public class OrderViewController implements Observer {
 
     public void addBeleg(String beleg) {
         try {
-            bestelFacade.addBeleg(beleg);
+            bestelFacade.addBeleg(dataBaseService.getBeleg(beleg));
+            dataBaseService.useBeleg(beleg);
+            bestelFacade.notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }
     }
 
-    public void update() {
-        orderView.updateDisplay();
+    public ArrayList<BestelLijn> getBestelLijnen() {
+        return bestelFacade.getBestelling().getLijstBestellijnen();
     }
 
     public List<Broodje> getAvailableBrood() {
@@ -55,7 +59,7 @@ public class OrderViewController implements Observer {
     }
 
     @Override
-    public void update(BestellingEvents e) {
+    public void update() {
         orderView.updateDisplay();
     }
 
