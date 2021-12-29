@@ -6,9 +6,19 @@ import java.util.ArrayList;
 public class BestelLijn {
     private String naambroodje;
     private ArrayList<String> namenbeleg = new ArrayList<>();
+    private double prijs;
 
-    public BestelLijn(String naambroodje) {
-        this.naambroodje = naambroodje;
+    public BestelLijn(Broodje broodje) {
+        this.naambroodje = broodje.getNaam();
+        setPrijs(broodje.getVerkoopprijs());
+    }
+
+    public double getPrijs() {
+        return prijs;
+    }
+
+    public void setPrijs(double prijs) {
+        this.prijs = prijs;
     }
 
     public String getNaambroodje() {

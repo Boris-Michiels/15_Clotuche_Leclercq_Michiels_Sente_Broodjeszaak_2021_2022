@@ -27,7 +27,8 @@ public class OrderViewController implements Observer {
 
     public void addBroodje(String broodje) {
         try {
-            bestelFacade.addBroodje(broodje);
+            bestelFacade.addBroodje(dataBaseService.getBroodje(broodje));
+            dataBaseService.useBroodje(broodje);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }

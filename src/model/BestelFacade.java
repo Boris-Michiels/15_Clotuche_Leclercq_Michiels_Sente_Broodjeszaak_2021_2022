@@ -19,7 +19,7 @@ public class BestelFacade implements Subject {
         this.bestelling = new Bestelling();
     }
 
-    public void addBroodje(String broodje) {
+    public void addBroodje(Broodje broodje) {
         if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
         bestelling.voegBestelLijnToe(broodje);
     }
@@ -28,10 +28,6 @@ public class BestelFacade implements Subject {
         if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
         if (bestelling.getBestelLijn() == null) throw new IllegalArgumentException("Voeg eerst een broodje toe");
         bestelling.addBeleg(beleg);
-    }
-
-    public void voegBestelLijnToe(String broodjenaam) {
-        bestelling.voegBestelLijnToe(broodjenaam);
     }
 
     public Bestelling getBestelling() {

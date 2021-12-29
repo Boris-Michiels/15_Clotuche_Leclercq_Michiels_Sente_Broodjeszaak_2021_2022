@@ -6,8 +6,8 @@ public class Bestelling {
     private ArrayList<BestelLijn> bestellijnen = new ArrayList<>();
     private BestelLijn bestelLijn;
 
-    public void voegBestelLijnToe(String broodjenaam) {
-        bestelLijn = new BestelLijn(broodjenaam);
+    public void voegBestelLijnToe(Broodje broodje) {
+        bestelLijn = new BestelLijn(broodje);
         bestellijnen.add(bestelLijn);
     }
 

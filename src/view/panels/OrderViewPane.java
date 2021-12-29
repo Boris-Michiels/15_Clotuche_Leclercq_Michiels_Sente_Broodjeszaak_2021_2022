@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,7 +34,7 @@ public class OrderViewPane extends GridPane {
         top.setAlignment(Pos.CENTER_LEFT);
         this.add(top, 0, 0, 5, 1);
         bestelling = new Button("Nieuwe Bestelling");
-        bestelling.setOnAction(event -> orderViewController.nieuweBestelling());
+        bestelling.setOnAction(event -> {orderViewController.nieuweBestelling(); bestelling.setDisable(true);});
         volgnr = new Label("Volgnr: 0");
         promo = new ComboBox<>();
         promo.getItems().addAll("test", "pp ", "cncr");
@@ -50,6 +51,8 @@ public class OrderViewPane extends GridPane {
         beleg = new HBox();
         beleg.setSpacing(10);
         menu.getChildren().addAll(brood, beleg);
+
+        //BroodjesTable = new TableView<>();
 
         Button test = new Button("print");
         test.setOnAction(event -> orderViewController.test());
@@ -100,8 +103,7 @@ public class OrderViewPane extends GridPane {
     }
 
     public void updateDisplay() {
-        //brood.getChildren().setAll(FXCollections.observableArrayList(orderViewController.getAvailableBrood()));
-        //beleg.getChildren().setAll(FXCollections.observableArrayList(orderViewController.getAvailableBeleg()));
+
     }
 
     public void setOrderViewController(OrderViewController orderViewController) {

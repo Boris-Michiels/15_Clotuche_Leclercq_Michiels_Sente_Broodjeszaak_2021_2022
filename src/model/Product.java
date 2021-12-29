@@ -44,6 +44,8 @@ public abstract class Product {
         this.verkocht = verkocht;
     }
 
+
+
     public String toTxtLine()
     {
         return naam + "," + verkoopprijs + "," + voorraad + "," + verkocht;

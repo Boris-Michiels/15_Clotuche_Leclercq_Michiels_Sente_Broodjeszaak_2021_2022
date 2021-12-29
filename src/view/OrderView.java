@@ -42,6 +42,14 @@ public class OrderView {
 		((OrderViewPane) gridPane).populateMenu();
 	}
 
+	public void updateBestellijnen() {
+		((OrderViewPane) gridPane).updateDisplay();
+	}
+
+	public void updateStatusBroodjesKnoppen() {
+		((OrderViewPane) gridPane).updateDisplay();
+	}
+
     public void displayMessage(String message) {
 		Stage popup = new Stage();
 		popup.initStyle(StageStyle.UTILITY);

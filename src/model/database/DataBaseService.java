@@ -35,6 +35,14 @@ public class DataBaseService {
         return belegDatabase.getBeleg();
     }
 
+    public Broodje getBroodje(String broodje) {
+        return broodjesDatabase.getBroodjes().get(broodje);
+    }
+
+    public Beleg getBeleg(String beleg) {
+        return belegDatabase.getBeleg().get(beleg);
+    }
+
     public List<Broodje> getAvailableBrood() {
         return broodjesDatabase.getBroodjes().values().stream().filter(b -> b.getVoorraad() > 0).collect(Collectors.toList());
     }
@@ -82,5 +90,10 @@ public class DataBaseService {
     public void setBelegLoadSaveStrategy(String belegLoadSaveStrategyString) {
         this.belegLoadSaveStrategy = LoadSaveStrategyFactory.createLoadSaveStrategy("BELEG" + belegLoadSaveStrategyString);
         this.belegFilePath = LoadSaveStrategyEnum.valueOf("BELEG" + belegLoadSaveStrategyString).getFilePath();
+    }
+
+    public void useBroodje(String broodje) {
+        Broodje b = broodjesDatabase.getBroodjes().get(broodje);
+        b.setVoorraad(b.getVoorraad() - 1);
     }
 }
