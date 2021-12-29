@@ -49,4 +49,8 @@ public class SandwichOverviewPane extends GridPane {
 		BroodjesTable.setItems(FXCollections.observableArrayList(adminViewController.getBroodjes().values()));
 		BelegTable.setItems(FXCollections.observableArrayList(adminViewController.getBeleg().values()));
 	}
+
+	public void setAdminViewController(AdminViewController adminViewController) {
+		this.adminViewController = adminViewController;
+	}
 }

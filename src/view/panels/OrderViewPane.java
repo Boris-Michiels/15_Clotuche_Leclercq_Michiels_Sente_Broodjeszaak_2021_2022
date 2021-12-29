@@ -43,7 +43,7 @@ public class OrderViewPane extends GridPane {
         VBox menu = new VBox();
         this.add(menu, 0, 1);
         brood = new HBox();
-        generateBroodButtonsList(brood);
+        //generateBroodButtonsList(brood);
         //brood.getChildren().addAll();
         beleg = new HBox();
         //generateBelegButtonList(beleg);
@@ -69,13 +69,13 @@ public class OrderViewPane extends GridPane {
         HBox belegbox = new HBox(100);
     }
 
-    private void generateBroodButtonsList(HBox brood) {
+    /*private void generateBroodButtonsList(HBox brood) {
         List<Button> broodList = new ArrayList<>();
         for (Broodje b : orderViewController.getAvailableBrood()) {
             Button button = new Button(b.getNaam());
             //button
         }
-    }
+    }*/
 
     public void setVolgnr(String s) {
         volgnr.setText(s);

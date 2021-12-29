@@ -34,5 +34,6 @@ public class AdminView {
 
 	public void setAdminViewController(AdminViewController adminViewController) {
 		this.adminViewController = adminViewController;
+		((AdminMainPane) borderPane).setAdminViewController(adminViewController);
 	}
 }

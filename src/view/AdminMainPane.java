@@ -29,4 +29,9 @@ public class AdminMainPane extends BorderPane {
     public void updateDisplay() {
         sandwichOverviewPane.updateDisplay();
     }
+
+    public void setAdminViewController(AdminViewController adminViewController) {
+        this.adminViewController = adminViewController;
+        (sandwichOverviewPane).setAdminViewController(adminViewController);
+    }
 }
