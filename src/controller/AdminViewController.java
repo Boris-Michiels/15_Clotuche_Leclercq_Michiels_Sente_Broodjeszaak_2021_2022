@@ -1,31 +1,42 @@
 package controller;
 
-import model.database.DataBaseContext;
+import model.Beleg;
+import model.Broodje;
+import model.database.DataBaseService;
 import view.AdminView;
+
+import java.util.Map;
 
 public class AdminViewController {
     private AdminView adminView;
-    private DataBaseContext dataBaseContext;
+    private DataBaseService dataBaseService;
 
-    public AdminViewController() {
-        dataBaseContext = DataBaseContext.getInstance();
+    public AdminViewController(AdminView adminView) {
+        this.adminView = adminView;
+        this.adminView.setAdminViewController(this);
+        dataBaseService = DataBaseService.getInstance();
         setLoadSaveStrategy("Tekst");
         loadProducts();
-    }
-
-    public void setAdminView(AdminView adminView) {
-        this.adminView = adminView;
+        update();
     }
 
     public void setLoadSaveStrategy(String loadSaveStrategy) {
-        dataBaseContext.setLoadSaveStrategy(loadSaveStrategy);
+        dataBaseService.setLoadSaveStrategy(loadSaveStrategy);
     }
 
     public void update() {
-        adminView.updateDisplay(dataBaseContext);
+        adminView.updateDisplay();
     }
 
     public void loadProducts() {
-        dataBaseContext.loadProducts();
+        dataBaseService.loadProducts();
+    }
+
+    public Map<String, Broodje> getBroodjes() {
+        return dataBaseService.getBroodjes();
+    }
+
+    public Map<String, Beleg> getBeleg() {
+        return dataBaseService.getBeleg();
     }
 }

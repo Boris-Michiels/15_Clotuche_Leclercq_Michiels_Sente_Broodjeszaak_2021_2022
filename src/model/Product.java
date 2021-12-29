@@ -48,4 +48,9 @@ public abstract class Product {
     {
         return naam + "," + verkoopprijs + "," + voorraad + "," + verkocht;
     }
+
+    @Override
+    public String toString() {
+        return naam;
+    }
 }

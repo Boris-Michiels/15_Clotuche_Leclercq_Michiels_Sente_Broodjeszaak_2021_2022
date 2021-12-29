@@ -1,9 +1,10 @@
 package application;
 	
 import controller.AdminViewController;
+import controller.OrderViewController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.database.DataBaseContext;
+import model.database.DataBaseService;
 import view.AdminView;
 import view.KitchenView;
 import view.OrderView;
@@ -12,11 +13,12 @@ import view.OrderView;
 public class BroodjeszaakMain extends Application {
 	@Override
 	public void start(Stage primaryStage) {
-		AdminViewController adminViewController = new AdminViewController();
-		AdminView adminView = new AdminView(adminViewController);
-		adminViewController.update();
+		AdminView adminView = new AdminView();
+		AdminViewController adminViewController = new AdminViewController(adminView);
+		//adminViewController.update();
 		//adminViewController.setLoadSaveStrategy("Tekst");
 		OrderView orderView = new OrderView();
+		OrderViewController orderViewController = new OrderViewController(orderView);
 		KitchenView kitchenView = new KitchenView();
 	}
 	
