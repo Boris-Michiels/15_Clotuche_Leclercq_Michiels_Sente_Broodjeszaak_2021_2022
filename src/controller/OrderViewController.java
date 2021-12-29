@@ -32,6 +32,7 @@ public class OrderViewController implements Observer {
 
     @Override
     public void update(BestellingEvents e) {
+        orderView.updateDisplay();
 
 
     }
