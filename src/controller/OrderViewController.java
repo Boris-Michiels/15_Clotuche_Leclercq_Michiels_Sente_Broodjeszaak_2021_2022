@@ -12,24 +12,15 @@ public class OrderViewController {
     private DataBaseService dataBaseService;
 
     public OrderViewController(OrderView orderView) {
+        dataBaseService = DataBaseService.getInstance();
         this.orderView = orderView;
         this.orderView.setOrderViewController(this);
-        dataBaseService = DataBaseService.getInstance();
-        setLoadSaveStrategy("Tekst");
-        loadProducts();
+        this.orderView.populateMenu();
         update();
-    }
-
-    public void setLoadSaveStrategy(String loadSaveStrategy) {
-        dataBaseService.setLoadSaveStrategy(loadSaveStrategy);
     }
 
     public void update() {
         orderView.updateDisplay();
-    }
-
-    public void loadProducts() {
-        dataBaseService.loadProducts();
     }
 
     public List<Broodje> getAvailableBrood() {

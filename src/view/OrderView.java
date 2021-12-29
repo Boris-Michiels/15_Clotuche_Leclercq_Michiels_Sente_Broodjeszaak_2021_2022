@@ -20,8 +20,7 @@ public class OrderView {
 		stage.setY(20);
 		Group root = new Group();
 		Scene scene = new Scene(root, 650, 650);
-		gridPane = new OrderViewPane(orderViewController);
-			gridPane.setGridLinesVisible(true);
+		gridPane = new OrderViewPane();
 		root.getChildren().add(gridPane);
 		stage.setScene(scene);
 		stage.sizeToScene();
@@ -34,5 +33,10 @@ public class OrderView {
 
 	public void setOrderViewController(OrderViewController orderViewController) {
 		this.orderViewController = orderViewController;
+		((OrderViewPane) gridPane).setOrderViewController(orderViewController);
+	}
+
+	public void populateMenu() {
+		((OrderViewPane) gridPane).populateMenu();
 	}
 }

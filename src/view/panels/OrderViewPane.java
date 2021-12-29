@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Beleg;
 import model.Broodje;
 
 import java.util.ArrayList;
@@ -19,16 +20,16 @@ public class OrderViewPane extends GridPane {
     private Button bestelling;
     private Label volgnr;
     private ComboBox<String> promo;
-    private HBox brood, beleg;
+    private HBox top, brood, beleg;
+    private VBox menu;
     private OrderViewController orderViewController;
 
-    public OrderViewPane(OrderViewController orderViewController) {
-        this.orderViewController = orderViewController;
+    public OrderViewPane() {
         this.setPadding(new Insets(5, 5, 5, 5));
         this.setVgap(5);
         this.setHgap(5);
 
-        HBox top = new HBox();
+        top = new HBox();
         top.setSpacing(10);
         top.setAlignment(Pos.CENTER);
         this.add(top, 0, 0, 5, 1);
@@ -40,14 +41,17 @@ public class OrderViewPane extends GridPane {
         top.getChildren().add(1, volgnr);
         top.getChildren().add(2, promo);
 
-        VBox menu = new VBox();
+        menu = new VBox();
+        menu.setSpacing(10);
+        menu.setAlignment(Pos.CENTER);
         this.add(menu, 0, 1);
         brood = new HBox();
-        //generateBroodButtonsList(brood);
-        //brood.getChildren().addAll();
+        brood.setSpacing(10);
         beleg = new HBox();
-        //generateBelegButtonList(beleg);
+        beleg.setSpacing(10);
         menu.getChildren().addAll(brood, beleg);
+
+
 
 
         VBox NBestelling = new VBox(40);
@@ -69,13 +73,25 @@ public class OrderViewPane extends GridPane {
         HBox belegbox = new HBox(100);
     }
 
-    /*private void generateBroodButtonsList(HBox brood) {
-        List<Button> broodList = new ArrayList<>();
+    private void generateBelegButtonList(HBox beleg) {
+        List<Button> belegButtonList = new ArrayList<>();
+        for (Beleg b : orderViewController.getAvailableBeleg()) {
+            Button button = new Button(b.getNaam());
+            //button.setOnAction();
+            belegButtonList.add(button);
+        }
+        beleg.getChildren().addAll(belegButtonList);
+    }
+
+    private void generateBroodButtonsList(HBox brood) {
+        List<Button> broodButtonList = new ArrayList<>();
         for (Broodje b : orderViewController.getAvailableBrood()) {
             Button button = new Button(b.getNaam());
-            //button
+            //button.setOnAction();
+            broodButtonList.add(button);
         }
-    }*/
+        brood.getChildren().addAll(broodButtonList);
+    }
 
     public void setVolgnr(String s) {
         volgnr.setText(s);
@@ -84,5 +100,14 @@ public class OrderViewPane extends GridPane {
     public void updateDisplay() {
         //brood.getChildren().setAll(FXCollections.observableArrayList(orderViewController.getAvailableBrood()));
         //beleg.getChildren().setAll(FXCollections.observableArrayList(orderViewController.getAvailableBeleg()));
+    }
+
+    public void setOrderViewController(OrderViewController orderViewController) {
+        this.orderViewController = orderViewController;
+    }
+
+    public void populateMenu() {
+        generateBroodButtonsList(brood);
+        generateBelegButtonList(beleg);
     }
 }

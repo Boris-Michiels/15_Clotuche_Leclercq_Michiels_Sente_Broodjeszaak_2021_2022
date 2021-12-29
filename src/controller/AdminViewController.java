@@ -12,9 +12,9 @@ public class AdminViewController {
     private DataBaseService dataBaseService;
 
     public AdminViewController(AdminView adminView) {
+        dataBaseService = DataBaseService.getInstance();
         this.adminView = adminView;
         this.adminView.setAdminViewController(this);
-        dataBaseService = DataBaseService.getInstance();
         setLoadSaveStrategy("Tekst");
         loadProducts();
         update();

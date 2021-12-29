@@ -11,11 +11,10 @@ public class AdminMainPane extends BorderPane {
     private SandwichOverviewPane sandwichOverviewPane;
     private AdminViewController adminViewController;
 
-	public AdminMainPane(AdminViewController adminViewController) {
-        this.adminViewController = adminViewController;
+	public AdminMainPane() {
 	    TabPane tabPane = new TabPane(); 	    
         //Tab spelVerloopTab = new Tab("Spelverloop");
-        sandwichOverviewPane = new SandwichOverviewPane(adminViewController);
+        sandwichOverviewPane = new SandwichOverviewPane();
         Tab broodjesTab = new Tab("Broodjes/Beleg", sandwichOverviewPane);
         Tab statistiekTab = new Tab("Statistieken");
         Tab instellingTab = new Tab("Instellingen");
@@ -32,6 +31,6 @@ public class AdminMainPane extends BorderPane {
 
     public void setAdminViewController(AdminViewController adminViewController) {
         this.adminViewController = adminViewController;
-        (sandwichOverviewPane).setAdminViewController(adminViewController);
+        sandwichOverviewPane.setAdminViewController(adminViewController);
     }
 }
