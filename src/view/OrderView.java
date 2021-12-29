@@ -4,6 +4,8 @@ import controller.OrderViewController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import view.panels.OrderViewPane;
@@ -39,4 +41,16 @@ public class OrderView {
 	public void populateMenu() {
 		((OrderViewPane) gridPane).populateMenu();
 	}
+
+    public void displayMessage(String message) {
+		Stage popup = new Stage();
+		popup.initStyle(StageStyle.UTILITY);
+		popup.setTitle("Error");
+		VBox dialogVbox = new VBox(20);
+		dialogVbox.getChildren().add(new Text(message));
+		Scene dialogScene = new Scene(dialogVbox, 300, 200);
+		popup.setScene(dialogScene);
+		popup.sizeToScene();
+		popup.show();
+    }
 }

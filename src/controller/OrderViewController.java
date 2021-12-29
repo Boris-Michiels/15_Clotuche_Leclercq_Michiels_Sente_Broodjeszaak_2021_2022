@@ -8,6 +8,7 @@ import java.util.List;
 
 public class OrderViewController implements Observer {
     private OrderView orderView;
+    private BestelFacade bestelFacade;
     private DataBaseService dataBaseService;
 
     public OrderViewController(OrderView orderView) {
@@ -15,7 +16,29 @@ public class OrderViewController implements Observer {
         this.orderView = orderView;
         this.orderView.setOrderViewController(this);
         this.orderView.populateMenu();
+        bestelFacade = new BestelFacade();
+        bestelFacade.addObserver(BestellingEvents.TOEVOEGEN_BROODJE, this);
         update();
+    }
+
+    public void nieuweBestelling() {
+        bestelFacade.nieuweBestelling();
+    }
+
+    public void addBroodje(String broodje) {
+        try {
+            bestelFacade.addBroodje(broodje);
+        } catch (IllegalArgumentException e) {
+            orderView.displayMessage(e.getMessage());
+        }
+    }
+
+    public void addBeleg(String beleg) {
+        try {
+            bestelFacade.addBeleg(beleg);
+        } catch (IllegalArgumentException e) {
+            orderView.displayMessage(e.getMessage());
+        }
     }
 
     public void update() {
@@ -33,7 +56,9 @@ public class OrderViewController implements Observer {
     @Override
     public void update(BestellingEvents e) {
         orderView.updateDisplay();
+    }
 
-
+    public void test() {
+        System.out.println(bestelFacade.getBestelling());
     }
 }

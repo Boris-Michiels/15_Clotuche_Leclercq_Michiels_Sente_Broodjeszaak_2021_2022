@@ -1,7 +1,6 @@
 package view.panels;
 
 import controller.OrderViewController;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,15 +24,16 @@ public class OrderViewPane extends GridPane {
     private OrderViewController orderViewController;
 
     public OrderViewPane() {
-        this.setPadding(new Insets(5, 5, 5, 5));
+        this.setPadding(new Insets(5));
         this.setVgap(5);
         this.setHgap(5);
 
         top = new HBox();
         top.setSpacing(10);
-        top.setAlignment(Pos.CENTER);
+        top.setAlignment(Pos.CENTER_LEFT);
         this.add(top, 0, 0, 5, 1);
         bestelling = new Button("Nieuwe Bestelling");
+        bestelling.setOnAction(event -> orderViewController.nieuweBestelling());
         volgnr = new Label("Volgnr: 0");
         promo = new ComboBox<>();
         promo.getItems().addAll("test", "pp ", "cncr");
@@ -51,7 +51,9 @@ public class OrderViewPane extends GridPane {
         beleg.setSpacing(10);
         menu.getChildren().addAll(brood, beleg);
 
-
+        Button test = new Button("print");
+        test.setOnAction(event -> orderViewController.test());
+        this.add(test, 0, 2);
 
 
         VBox NBestelling = new VBox(40);
@@ -73,24 +75,24 @@ public class OrderViewPane extends GridPane {
         HBox belegbox = new HBox(100);
     }
 
-    private void generateBelegButtonList(HBox beleg) {
-        List<Button> belegButtonList = new ArrayList<>();
-        for (Beleg b : orderViewController.getAvailableBeleg()) {
-            Button button = new Button(b.getNaam());
-            //button.setOnAction();
-            belegButtonList.add(button);
-        }
-        beleg.getChildren().addAll(belegButtonList);
-    }
-
     private void generateBroodButtonsList(HBox brood) {
         List<Button> broodButtonList = new ArrayList<>();
         for (Broodje b : orderViewController.getAvailableBrood()) {
             Button button = new Button(b.getNaam());
-            //button.setOnAction();
+            button.setOnAction(event -> orderViewController.addBroodje(button.getText()));
             broodButtonList.add(button);
         }
         brood.getChildren().addAll(broodButtonList);
+    }
+
+    private void generateBelegButtonList(HBox beleg) {
+        List<Button> belegButtonList = new ArrayList<>();
+        for (Beleg b : orderViewController.getAvailableBeleg()) {
+            Button button = new Button(b.getNaam());
+            button.setOnAction(event -> orderViewController.addBeleg(button.getText()));
+            belegButtonList.add(button);
+        }
+        beleg.getChildren().addAll(belegButtonList);
     }
 
     public void setVolgnr(String s) {

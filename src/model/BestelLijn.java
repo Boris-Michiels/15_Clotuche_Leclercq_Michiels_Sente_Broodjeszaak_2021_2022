@@ -5,13 +5,10 @@ import java.util.ArrayList;
 
 public class BestelLijn {
     private String naambroodje;
-    private ArrayList<String>namenbeleg = new ArrayList<>();
+    private ArrayList<String> namenbeleg = new ArrayList<>();
 
-
-    public BestelLijn(String naambroodje,ArrayList<String>namenbeleg){
-        this.naambroodje=naambroodje;
-        this.namenbeleg=namenbeleg;
-
+    public BestelLijn(String naambroodje) {
+        this.naambroodje = naambroodje;
     }
 
     public String getNaambroodje() {
@@ -28,5 +25,14 @@ public class BestelLijn {
 
     public void setNamenbeleg(ArrayList<String> namenbeleg) {
         this.namenbeleg = namenbeleg;
+    }
+
+    public void addBeleg(String beleg) {
+        namenbeleg.add(beleg);
+    }
+
+    @Override
+    public String toString() {
+        return naambroodje + " - " + namenbeleg;
     }
 }

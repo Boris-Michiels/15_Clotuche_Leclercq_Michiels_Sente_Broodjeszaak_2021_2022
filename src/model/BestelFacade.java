@@ -1,55 +1,61 @@
 package model;
 
-import model.database.BroodjesDatabase;
-import model.database.DataBaseService;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BestelFacade implements Subject
-{
+public class BestelFacade implements Subject {
     private Bestelling bestelling;
-    private BroodjesDatabase broodjesdatabase;
-    private DataBaseService dataBaseService;
-    private ArrayList<BestelLijn>bestellijnen = new ArrayList<>();
     private HashMap<BestellingEvents, List<Observer>> observers;
 
-
-    public void voegBestelLijnToe(String broodjenaam,ArrayList<String>belegnamen) {
-        bestelling.voegBestelLijnToe(broodjenaam,belegnamen);
-
+    public BestelFacade() {
+        this.observers = new HashMap<>();
+        for (BestellingEvents event : BestellingEvents.values()) {
+            observers.put(event, new ArrayList<>());
+        }
     }
 
-    public ArrayList<BestelLijn> getBestellijnen() {
-        return bestellijnen;
+    public void nieuweBestelling() {
+        this.bestelling = new Bestelling();
     }
 
-    public void setBestellijnen(ArrayList<BestelLijn> bestellijnen) {
-        this.bestellijnen = bestellijnen;
+    public void addBroodje(String broodje) {
+        if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
+        bestelling.voegBestelLijnToe(broodje);
     }
-    public List<Broodje> getVooraadLijstBroodjes(){
+
+    public void addBeleg(String beleg) {
+        if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
+        if (bestelling.getBestelLijn() == null) throw new IllegalArgumentException("Voeg eerst een broodje toe");
+        bestelling.addBeleg(beleg);
+    }
+
+    public void voegBestelLijnToe(String broodjenaam) {
+        bestelling.voegBestelLijnToe(broodjenaam);
+    }
+
+    public Bestelling getBestelling() {
+        return bestelling;
+    }
+
+    /*public List<Broodje> getVooraadLijstBroodjes() {
         return dataBaseService.getAvailableBrood();
-    }
+    }*/
 
     @Override
-    public void addObserver(BestellingEvents e,Observer o) {
+    public void addObserver(BestellingEvents e, Observer o) {
         observers.get(e).add(o);
-
-
     }
 
     @Override
     public void removeObserver(Observer o) {
         observers.remove(o);
-
     }
 
     @Override
     public void notifyObservers(BestellingEvents e) {
-        for(Observer o: observers.get(e)){
+        for (Observer o : observers.get(e)) {
             o.update(e);
         }
-
     }
 }
