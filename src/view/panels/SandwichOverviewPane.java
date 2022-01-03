@@ -31,7 +31,7 @@ public class SandwichOverviewPane extends GridPane {
 		priceColumnBroodje.setCellValueFactory(new PropertyValueFactory<>("verkoopprijs"));
 		TableColumn<Broodje, String> stockColumnBroodje = new TableColumn<>("Voorraad");
 		stockColumnBroodje.setCellValueFactory(new PropertyValueFactory<>("voorraad"));
-		BroodjesTable.getColumns().addAll(nameColumnBroodje, priceColumnBroodje, stockColumnBroodje);
+		BroodjesTable.getColumns().setAll(nameColumnBroodje, priceColumnBroodje, stockColumnBroodje);
 
 		this.add(new Label("Beleg:"), 0, 2, 1, 1);
 		this.add(BelegTable, 0, 3, 2, 1);
@@ -41,12 +41,12 @@ public class SandwichOverviewPane extends GridPane {
 		priceColumnBeleg.setCellValueFactory(new PropertyValueFactory<>("verkoopprijs"));
 		TableColumn<Beleg, String> stockColumnBeleg = new TableColumn<>("Voorraad");
 		stockColumnBeleg.setCellValueFactory(new PropertyValueFactory<>("voorraad"));
-		BelegTable.getColumns().addAll(nameColumnBeleg, priceColumnBeleg, stockColumnBeleg);
+		BelegTable.getColumns().setAll(nameColumnBeleg, priceColumnBeleg, stockColumnBeleg);
 	}
 
 	public void updateDisplay() {
-		BroodjesTable.setItems(FXCollections.observableArrayList(adminViewController.getBroodjes().values()));
-		BelegTable.setItems(FXCollections.observableArrayList(adminViewController.getBeleg().values()));
+		BroodjesTable.setItems(FXCollections.observableList(adminViewController.getBroodjes()));
+		BelegTable.setItems(FXCollections.observableList(adminViewController.getBeleg()));
 	}
 
 	public void setAdminViewController(AdminViewController adminViewController) {

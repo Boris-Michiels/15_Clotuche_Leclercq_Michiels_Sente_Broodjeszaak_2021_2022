@@ -6,6 +6,7 @@ import model.database.loadSaveStrategies.LoadSaveStrategy;
 import model.database.loadSaveStrategies.LoadSaveStrategyEnum;
 import model.database.loadSaveStrategies.LoadSaveStrategyFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,12 +28,20 @@ public class DataBaseService {
         return instance;
     }
 
-    public Map<String, Broodje> getBroodjes() {
+    public Map<String, Broodje> getBroodjesMap() {
         return broodjesDatabase.getBroodjes();
     }
 
-    public Map<String, Beleg> getBeleg() {
+    public Map<String, Beleg> getBelegMap() {
         return belegDatabase.getBeleg();
+    }
+
+    public List<Broodje> getBroodjes() {
+        return new ArrayList<>(getBroodjesMap().values());
+    }
+
+    public List<Beleg> getBeleg() {
+        return new ArrayList<>(getBelegMap().values());
     }
 
     public Broodje getBroodje(String broodje) {
@@ -41,6 +50,14 @@ public class DataBaseService {
 
     public Beleg getBeleg(String beleg) {
         return belegDatabase.getBeleg().get(beleg);
+    }
+
+    public Map<String, Integer> getVoorraadlijstBroodjes() {
+        return getBroodjes().stream().collect(Collectors.toMap(Broodje::getNaam, Broodje::getVoorraad));
+    }
+
+    public Map<String, Integer> getVoorraadlijstBeleg() {
+        return getBeleg().stream().collect(Collectors.toMap(Beleg::getNaam, Beleg::getVoorraad));
     }
 
     public List<Broodje> getAvailableBrood() {
@@ -92,13 +109,21 @@ public class DataBaseService {
         this.belegFilePath = LoadSaveStrategyEnum.valueOf("BELEG" + belegLoadSaveStrategyString).getFilePath();
     }
 
-    public void useBroodje(String broodje) {
+    public void adjustVoorraadBroodje(String broodje, int c) {
         Broodje b = getBroodje(broodje);
-        b.setVoorraad(b.getVoorraad() - 1);
+        b.setVoorraad(b.getVoorraad() + c);
     }
 
-    public void useBeleg(String beleg) {
+    public void adjustVoorraadBeleg(String beleg, int c) {
         Beleg b = getBeleg(beleg);
-        b.setVoorraad(b.getVoorraad() - 1);
+        b.setVoorraad(b.getVoorraad() + c);
+    }
+
+    public int getAvailabilityBroodje(String broodje) {
+        return getBroodje(broodje).getVoorraad();
+    }
+
+    public int getAvailabilityBeleg(String beleg) {
+        return getBeleg(beleg).getVoorraad();
     }
 }

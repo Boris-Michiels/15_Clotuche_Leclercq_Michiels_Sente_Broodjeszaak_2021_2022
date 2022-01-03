@@ -31,4 +31,9 @@ public class Bestelling {
     public String toString() {
         return bestellijnen.toString();
     }
+
+    public void removeBestelLijn(BestelLijn b) {
+        bestellijnen.remove(b);
+        bestelLijn = bestellijnen.size() > 0 ? bestellijnen.get(bestellijnen.size() - 1) : null;
+    }
 }

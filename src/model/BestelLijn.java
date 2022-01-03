@@ -10,6 +10,7 @@ public class BestelLijn {
 
     public BestelLijn(Broodje broodje) {
         this.naambroodje = broodje.getNaam();
+        broodje.setVoorraad(broodje.getVoorraad() - 1);
         setPrijs(broodje.getVerkoopprijs());
     }
 
@@ -34,7 +35,7 @@ public class BestelLijn {
         for (String s : namenbeleg) {
             out.append(s).append(", ");
         }
-        return (out.toString().length() > 0) ? out.toString().substring(0, out.toString().length() - 2) : null;
+        return (out.toString().length() > 0) ? out.substring(0, out.toString().length() - 2) : null;
     }
 
     public void setNaambroodje(String naambroodje) {
@@ -47,6 +48,7 @@ public class BestelLijn {
 
     public void addBeleg(Beleg beleg) {
         namenbeleg.add(beleg.getNaam());
+        beleg.setVoorraad(beleg.getVoorraad() - 1);
         setPrijs(prijs + beleg.getVerkoopprijs());
     }
 

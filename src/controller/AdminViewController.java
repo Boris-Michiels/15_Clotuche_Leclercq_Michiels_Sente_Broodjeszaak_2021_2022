@@ -7,6 +7,7 @@ import model.Observer;
 import model.database.DataBaseService;
 import view.AdminView;
 
+import java.util.List;
 import java.util.Map;
 
 public class AdminViewController implements Observer {
@@ -30,12 +31,20 @@ public class AdminViewController implements Observer {
         dataBaseService.loadProducts();
     }
 
-    public Map<String, Broodje> getBroodjes() {
+    public List<Broodje> getBroodjes() {
         return dataBaseService.getBroodjes();
     }
 
-    public Map<String, Beleg> getBeleg() {
+    public List<Beleg> getBeleg() {
         return dataBaseService.getBeleg();
+    }
+
+    public Map<String, Broodje> getBroodjesMap() {
+        return dataBaseService.getBroodjesMap();
+    }
+
+    public Map<String, Beleg> getBelegMap() {
+        return dataBaseService.getBelegMap();
     }
 
     @Override

@@ -8,7 +8,6 @@ public class InBestelling extends BestellingState {
     @Override
     public void voegBestelLijnToe(Broodje broodje) {
         bestelling.voegBestelLijnToe(broodje);
-
     }
 }
 

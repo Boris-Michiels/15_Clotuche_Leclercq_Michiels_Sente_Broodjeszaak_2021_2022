@@ -39,15 +39,15 @@ public class OrderView {
 	}
 
 	public void populateMenu() {
-		((OrderViewPane) gridPane).populateMenu();
+		((OrderViewPane) gridPane).updateMenu();
 	}
 
 	public void updateBestellijnen() {
-		((OrderViewPane) gridPane).updateDisplay();
+		((OrderViewPane) gridPane).updateBestellijnen();
 	}
 
-	public void updateStatusBroodjesKnoppen() {
-		((OrderViewPane) gridPane).updateDisplay();
+	public void updateStatusMenuKnoppen() {
+		((OrderViewPane) gridPane).updateMenu();
 	}
 
     public void displayMessage(String message) {

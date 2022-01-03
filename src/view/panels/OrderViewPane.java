@@ -15,16 +15,18 @@ import model.Broodje;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrderViewPane extends GridPane {
-    private Button bestelling;
+    private Button bestelling, removeButton;
     private Label volgnr;
     private Label aantal;
     private ComboBox<String> promo;
     private HBox top, brood, beleg;
     private VBox menu;
-    private TableView bestellijnTable;
-    TableColumn<BestelLijn, String> broodjesColumn, belegColumn;
+    private TableView<BestelLijn> bestellijnTable;
+    private TableColumn<BestelLijn, String> broodjesColumn, belegColumn;
     private OrderViewController orderViewController;
 
     public OrderViewPane() {
@@ -59,6 +61,7 @@ public class OrderViewPane extends GridPane {
         this.add(aantal, 0, 2);
 
         bestellijnTable = new TableView<>();
+        bestellijnTable.setOnMouseClicked(event -> setRemoveButton());
         this.add(bestellijnTable, 0, 3);
         broodjesColumn = new TableColumn<>("Broodje");
         broodjesColumn.setCellValueFactory(new PropertyValueFactory<>("naambroodje"));
@@ -66,29 +69,18 @@ public class OrderViewPane extends GridPane {
         belegColumn.setCellValueFactory(new PropertyValueFactory<>("belegString"));
         //bestellijnTable.getColumns().setAll(broodjesColumn, belegColumn);
 
-        /*Button test = new Button("print");
+        removeButton = new Button("Verwijder broodje");
+        removeButton.setDisable(true);
+        removeButton.setOnAction(event -> {orderViewController.removeBestellijn(bestellijnTable.getSelectionModel().getSelectedItem()); setRemoveButton();});
+        this.add(removeButton, 0, 4);
+
+        Button test = new Button("println");
         test.setOnAction(event -> orderViewController.test());
-        this.add(test, 0, 4);*/
+        this.add(test, 0, 5);
     }
 
-    private void generateBroodButtonsList(HBox brood) {
-        List<Button> broodButtonList = new ArrayList<>();
-        for (Broodje b : orderViewController.getAvailableBrood()) {
-            Button button = new Button(b.getNaam());
-            button.setOnAction(event -> orderViewController.addBroodje(button.getText()));
-            broodButtonList.add(button);
-        }
-        brood.getChildren().setAll(broodButtonList);
-    }
-
-    private void generateBelegButtonList(HBox beleg) {
-        List<Button> belegButtonList = new ArrayList<>();
-        for (Beleg b : orderViewController.getAvailableBeleg()) {
-            Button button = new Button(b.getNaam());
-            button.setOnAction(event -> orderViewController.addBeleg(button.getText()));
-            belegButtonList.add(button);
-        }
-        beleg.getChildren().setAll(belegButtonList);
+    private void setRemoveButton() {
+        removeButton.setDisable(bestellijnTable.getSelectionModel().getSelectedItem() == null);
     }
 
     public void setVolgnr(String s) {
@@ -96,19 +88,47 @@ public class OrderViewPane extends GridPane {
     }
 
     public void updateDisplay() {
-        bestellijnTable.setItems(FXCollections.observableArrayList(orderViewController.getBestelLijnen()));
-        setAantal(orderViewController.getBestelLijnen().size());
-        populateMenu();
-        bestellijnTable.getColumns().setAll(broodjesColumn, belegColumn);
+        updateMenu();
+        updateBestellijnen();
     }
 
     public void setOrderViewController(OrderViewController orderViewController) {
         this.orderViewController = orderViewController;
     }
 
-    public void populateMenu() {
-        generateBroodButtonsList(brood);
-        generateBelegButtonList(beleg);
+    public void updateMenu() {
+        updateBroodButtonList();
+        updateBelegButtonList();
+    }
+
+    public void updateBestellijnen() {
+        bestellijnTable.setItems(FXCollections.observableArrayList(orderViewController.getBestelLijnen()));
+        setAantal(orderViewController.getBestelLijnen().size());
+        bestellijnTable.getColumns().setAll(broodjesColumn, belegColumn);
+    }
+
+    private void updateBroodButtonList() {
+        List<Button> broodButtonList = new ArrayList<>();
+        Map<String, Integer> broodjes = orderViewController.getVoorraadlijstBroodjes();
+        for (String n : broodjes.keySet().stream().sorted().collect(Collectors.toList())) {
+            Button button = new Button(n);
+            button.setOnAction(event -> orderViewController.addBroodje(button.getText()));
+            button.setDisable(broodjes.get(n) == 0);
+            broodButtonList.add(button);
+        }
+        this.brood.getChildren().setAll(broodButtonList);
+    }
+
+    private void updateBelegButtonList() {
+        List<Button> belegButtonList = new ArrayList<>();
+        Map<String, Integer> beleg = orderViewController.getVoorraadlijstBeleg();
+        for (String n : beleg.keySet().stream().sorted().collect(Collectors.toList())) {
+            Button button = new Button(n);
+            button.setOnAction(event -> orderViewController.addBeleg(button.getText()));
+            button.setDisable(beleg.get(n) == 0);
+            belegButtonList.add(button);
+        }
+        this.beleg.getChildren().setAll(belegButtonList);
     }
 
     public void setAantal(int aantal) {

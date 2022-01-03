@@ -1,24 +1,21 @@
 package controller;
 
 import model.*;
-import model.database.DataBaseService;
 import view.OrderView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrderViewController implements Observer {
     private OrderView orderView;
     private BestelFacade bestelFacade;
-    private DataBaseService dataBaseService;
 
     public OrderViewController(OrderView orderView) {
-        dataBaseService = DataBaseService.getInstance();
+        bestelFacade = new BestelFacade();
+        bestelFacade.addObserver(BestellingEvents.TOEVOEGEN_BROODJE, this);
         this.orderView = orderView;
         this.orderView.setOrderViewController(this);
         this.orderView.populateMenu();
-        bestelFacade = new BestelFacade();
-        bestelFacade.addObserver(BestellingEvents.TOEVOEGEN_BROODJE, this);
         //update();
     }
 
@@ -28,9 +25,7 @@ public class OrderViewController implements Observer {
 
     public void addBroodje(String broodje) {
         try {
-            bestelFacade.addBroodje(dataBaseService.getBroodje(broodje));
-            dataBaseService.useBroodje(broodje);
-            bestelFacade.notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
+            bestelFacade.addBroodje(broodje);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }
@@ -38,32 +33,55 @@ public class OrderViewController implements Observer {
 
     public void addBeleg(String beleg) {
         try {
-            bestelFacade.addBeleg(dataBaseService.getBeleg(beleg));
-            dataBaseService.useBeleg(beleg);
-            bestelFacade.notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
+            bestelFacade.addBeleg(beleg);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }
     }
 
-    public ArrayList<BestelLijn> getBestelLijnen() {
-        return bestelFacade.getBestelling().getLijstBestellijnen();
+    public List<BestelLijn> getBestelLijnen() {
+        return bestelFacade.getLijstBestellijnen();
+    }
+
+    public List<Broodje> getAllBrood() {
+        return bestelFacade.getAllBrood();
+    }
+
+    public List<Beleg> getAllBeleg() {
+        return bestelFacade.getAllBeleg();
     }
 
     public List<Broodje> getAvailableBrood() {
-        return dataBaseService.getAvailableBrood();
+        return bestelFacade.getAvailableBrood();
     }
 
     public List<Beleg> getAvailableBeleg() {
-        return dataBaseService.getAvailableBeleg();
+        return bestelFacade.getAvailableBeleg();
     }
 
     @Override
     public void update() {
         orderView.updateDisplay();
+        orderView.updateStatusMenuKnoppen();
+    }
+
+    public Map<String, Integer> getVoorraadlijstBroodjes() {
+        return bestelFacade.getVoorraadlijstBroodjes();
+    }
+
+    public Map<String, Integer> getVoorraadlijstBeleg() {
+        return bestelFacade.getVoorraadlijstBeleg();
     }
 
     public void test() {
         System.out.println(bestelFacade.getBestelling());
+    }
+
+    public int checkAvailability(String naam, String type) {
+        return bestelFacade.checkAvailability(naam, type);
+    }
+
+    public void removeBestellijn(BestelLijn b) {
+        bestelFacade.removeBestellijn(b);
     }
 }
