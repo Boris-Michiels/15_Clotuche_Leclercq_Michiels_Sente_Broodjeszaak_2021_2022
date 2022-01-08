@@ -61,4 +61,12 @@ public class OrderView {
 		popup.sizeToScene();
 		popup.show();
     }
+
+	public void selectLastBestellijn() {
+		((OrderViewPane) gridPane).selectLastBestellijn();
+	}
+
+	public void setInWacht(boolean b) {
+		((OrderViewPane) gridPane).setInWacht(b);
+	}
 }

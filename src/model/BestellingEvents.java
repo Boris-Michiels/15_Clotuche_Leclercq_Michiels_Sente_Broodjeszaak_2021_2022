@@ -1,15 +1,18 @@
 package model;
 
 public enum BestellingEvents {
-    TOEVOEGEN_BROODJE ("Broodje toegevoegd");
+    NIEUWE_BESTELLING ("Nieuwe bestelling"),
+    TOEVOEGEN_BROODJE ("Broodje toegevoegd"),
+    TOEVOEGEN_BELEG ("Beleg toegevoegd"),
+    VERWIJDEREN_BESTELLIJN ("Bestellijn verwijderd");
 
-    private String eventName;
-    BestellingEvents(String eventName){
-        this.eventName=eventName;
+    private String eventDescription;
+    BestellingEvents(String eventDescription){
+        this.eventDescription = eventDescription;
     }
 
-    public String getEventName() {
-        return this.eventName;
+    public String getEventDescription() {
+        return this.eventDescription;
     }
 
 

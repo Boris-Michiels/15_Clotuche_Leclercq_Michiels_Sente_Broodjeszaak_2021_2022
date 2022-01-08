@@ -1,4 +1,4 @@
-package model.KortingStrategies;
+package model.kortingStrategies;
 
 public class KortingStrategyFactory {
     public static KortingStrategy KortingStrategyFactory(String kortingString){

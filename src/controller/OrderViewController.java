@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import view.OrderView;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,15 +13,16 @@ public class OrderViewController implements Observer {
 
     public OrderViewController(OrderView orderView) {
         bestelFacade = new BestelFacade();
-        bestelFacade.addObserver(BestellingEvents.TOEVOEGEN_BROODJE, this);
+        bestelFacade.addObservers(Arrays.asList(BestellingEvents.NIEUWE_BESTELLING, BestellingEvents.TOEVOEGEN_BROODJE, BestellingEvents.TOEVOEGEN_BELEG, BestellingEvents.VERWIJDEREN_BESTELLIJN), this);
         this.orderView = orderView;
         this.orderView.setOrderViewController(this);
         this.orderView.populateMenu();
-        //update();
+        orderView.setInWacht(true);
     }
 
     public void nieuweBestelling() {
         bestelFacade.nieuweBestelling();
+        orderView.setInWacht(false);
     }
 
     public void addBroodje(String broodje) {
@@ -31,9 +33,9 @@ public class OrderViewController implements Observer {
         }
     }
 
-    public void addBeleg(String beleg) {
+    public void addBeleg(String beleg, BestelLijn selectedItem) {
         try {
-            bestelFacade.addBeleg(beleg);
+            bestelFacade.addBeleg(beleg, selectedItem);
         } catch (IllegalArgumentException e) {
             orderView.displayMessage(e.getMessage());
         }
@@ -60,9 +62,12 @@ public class OrderViewController implements Observer {
     }
 
     @Override
-    public void update() {
-        orderView.updateDisplay();
+    public void update(BestellingEvents e) {
+        orderView.updateBestellijnen();
         orderView.updateStatusMenuKnoppen();
+        if (e == BestellingEvents.TOEVOEGEN_BROODJE) {
+            orderView.selectLastBestellijn();
+        }
     }
 
     public Map<String, Integer> getVoorraadlijstBroodjes() {
@@ -83,5 +88,13 @@ public class OrderViewController implements Observer {
 
     public void removeBestellijn(BestelLijn b) {
         bestelFacade.removeBestellijn(b);
+    }
+
+    public void addBestellijn(BestelLijn selectedItem) {
+        try {
+            bestelFacade.addBestellijn(selectedItem);
+        } catch (IllegalArgumentException e) {
+            orderView.displayMessage(e.getMessage());
+        }
     }
 }

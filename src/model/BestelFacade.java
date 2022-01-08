@@ -2,11 +2,11 @@ package model;
 
 import model.database.DataBaseService;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class BestelFacade implements Subject {
@@ -24,7 +24,7 @@ public class BestelFacade implements Subject {
 
     public void nieuweBestelling() {
         this.bestelling = new Bestelling();
-        //notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
+        notifyObservers(BestellingEvents.NIEUWE_BESTELLING);
     }
 
     public void addBroodje(String broodje) {
@@ -33,24 +33,24 @@ public class BestelFacade implements Subject {
         notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 
-    public void addBeleg(String beleg) {
+    public void addBeleg(String beleg, BestelLijn selectedItem) {
         if (bestelling == null) throw new IllegalArgumentException("Maak eerst een nieuwe bestelling aan");
-        if (bestelling.getBestelLijn() == null) throw new IllegalArgumentException("Voeg eerst een broodje toe");
-        bestelling.addBeleg(dataBaseService.getBeleg(beleg));
-        notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
+        if (selectedItem == null) throw new IllegalArgumentException("Selecteer eerst een broodje om het beleg aan toe te voegen");
+        bestelling.addBeleg(dataBaseService.getBeleg(beleg), selectedItem);
+        notifyObservers(BestellingEvents.TOEVOEGEN_BELEG);
     }
 
     public Bestelling getBestelling() {
         return bestelling;
     }
 
-    /*public List<Broodje> getVooraadLijstBroodjes() {
-        return dataBaseService.getAvailableBrood();
-    }*/
-
     @Override
     public void addObserver(BestellingEvents e, Observer o) {
         observers.get(e).add(o);
+    }
+
+    public void addObservers(List<BestellingEvents> es, Observer o) {
+        for (BestellingEvents e : es) addObserver(e, o);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class BestelFacade implements Subject {
     @Override
     public void notifyObservers(BestellingEvents e) {
         for (Observer o : observers.get(e)) {
-            o.update();
+            o.update(e);
         }
     }
 
@@ -105,6 +105,19 @@ public class BestelFacade implements Subject {
             dataBaseService.adjustVoorraadBeleg(bl, +1);
         }
         this.bestelling.removeBestelLijn(b);
+        notifyObservers(BestellingEvents.VERWIJDEREN_BESTELLIJN);
+    }
+
+    public void addBestellijn(BestelLijn selectedItem) {
+        if (getVoorraadlijstBroodjes().get(selectedItem.getNaambroodje()) < 1) throw new IllegalArgumentException("Dit broodje is niet meer in voorraad.");
+        Map<String, Long> beleg = selectedItem.getNamenbeleg().stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        Map<String, Integer> voorraadlijstBeleg = getVoorraadlijstBeleg();
+        for (String b : beleg.keySet()) {
+            if (voorraadlijstBeleg.get(b) < beleg.get(b)) throw new IllegalArgumentException("Beleg " + b + " is niet meer genoeg in voorraad");
+        }
+        bestelling.voegBestelLijnToe(dataBaseService.getBroodje(selectedItem.getNaambroodje()));
+        BestelLijn bestelLijn = getLijstBestellijnen().get(getLijstBestellijnen().size() - 1);
+        for (String b : selectedItem.getNamenbeleg()) addBeleg(b, bestelLijn);
         notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 }

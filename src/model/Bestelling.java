@@ -1,26 +1,26 @@
 package model;
 
+import model.bestelStates.BestellingState;
+import model.bestelStates.InWacht;
+
 import java.util.ArrayList;
 
 public class Bestelling {
-    private ArrayList<BestelLijn> bestellijnen = new ArrayList<>();
-    private BestelLijn bestelLijn;
+    private ArrayList<BestelLijn> bestellijnen;
+    private BestellingState bestellingState;
+
+    public Bestelling() {
+        this.bestellijnen = new ArrayList<>();
+        this.bestellingState = new InWacht(this);
+    }
 
     public void voegBestelLijnToe(Broodje broodje) {
-        bestelLijn = new BestelLijn(broodje);
-        bestellijnen.add(bestelLijn);
+        //bestellingState.voegBestelLijnToe();
+        bestellijnen.add(new BestelLijn(broodje));
     }
 
-    public void addBeleg(Beleg beleg) {
-        bestelLijn.addBeleg(beleg);
-    }
-
-    public BestelLijn getBestelLijn() {
-        return bestelLijn;
-    }
-
-    public void setBestelLijn(BestelLijn bestelLijn) {
-        this.bestelLijn = bestelLijn;
+    public void addBeleg(Beleg beleg, BestelLijn selectedItem) {
+        selectedItem.addBeleg(beleg);
     }
 
     public ArrayList<BestelLijn> getLijstBestellijnen() {
@@ -34,6 +34,13 @@ public class Bestelling {
 
     public void removeBestelLijn(BestelLijn b) {
         bestellijnen.remove(b);
-        bestelLijn = bestellijnen.size() > 0 ? bestellijnen.get(bestellijnen.size() - 1) : null;
+    }
+
+    public BestellingState getBestellingState() {
+        return bestellingState;
+    }
+
+    public void setBestellingState(BestellingState bestellingState) {
+        this.bestellingState = bestellingState;
     }
 }

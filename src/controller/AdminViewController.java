@@ -20,13 +20,20 @@ public class AdminViewController implements Observer {
         this.adminView.setAdminViewController(this);
         setLoadSaveStrategy("Tekst");
         loadProducts();
-        update();
+        adminView.updateDisplay();
     }
 
     public void setLoadSaveStrategy(String loadSaveStrategy) {
         dataBaseService.setLoadSaveStrategy(loadSaveStrategy);
     }
 
+    public void setBroodjesLoadSaveStrategy(String broodjesLoadSaveStrategyString) {
+        dataBaseService.setBroodjesLoadSaveStrategy(broodjesLoadSaveStrategyString);
+    }
+
+    public void setBelegLoadSaveStrategy(String belegLoadSaveStrategyString) {
+        dataBaseService.setBelegLoadSaveStrategy(belegLoadSaveStrategyString);
+    }
     public void loadProducts() {
         dataBaseService.loadProducts();
     }
@@ -48,7 +55,7 @@ public class AdminViewController implements Observer {
     }
 
     @Override
-    public void update() {
+    public void update(BestellingEvents e) {
         adminView.updateDisplay();
     }
 }

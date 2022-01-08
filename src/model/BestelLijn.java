@@ -35,7 +35,7 @@ public class BestelLijn {
         for (String s : namenbeleg) {
             out.append(s).append(", ");
         }
-        return (out.toString().length() > 0) ? out.substring(0, out.toString().length() - 2) : null;
+        return out.toString().length() > 0 ? out.substring(0, out.toString().length() - 2) : null;
     }
 
     public void setNaambroodje(String naambroodje) {

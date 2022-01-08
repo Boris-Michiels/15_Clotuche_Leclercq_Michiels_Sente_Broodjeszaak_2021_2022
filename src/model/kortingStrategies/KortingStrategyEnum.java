@@ -1,4 +1,4 @@
-package model.KortingStrategies;
+package model.kortingStrategies;
 
 public enum KortingStrategyEnum {
     NoDiscount("No Discount"),
