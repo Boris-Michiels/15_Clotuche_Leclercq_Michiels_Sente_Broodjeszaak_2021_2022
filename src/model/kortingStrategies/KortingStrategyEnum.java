@@ -1,19 +1,17 @@
 package model.kortingStrategies;
 
 public enum KortingStrategyEnum {
-    NoDiscount("No Discount"),
-    tenProcent("10 procent op hele bestelling"),
-    cheapestbroodje("Cheapest broodje op bestelling for free");
+    NO_DISCOUNT("model.kortingStrategies.NoDiscount"),
+    TEN_PERCENT("model.kortingStrategies.TenPercentDiscount"),
+    FREE_SANDWICH("model.kortingStrategies.FreeSandwichDiscount");
 
-
-    private final String korting;
-
+    private final String classPath;
 
     KortingStrategyEnum(String korting) {
-        this.korting = korting;
+        this.classPath = korting;
     }
 
-    public String getTekst() {
-        return korting;
+    public String getClassPath() {
+        return classPath;
     }
 }

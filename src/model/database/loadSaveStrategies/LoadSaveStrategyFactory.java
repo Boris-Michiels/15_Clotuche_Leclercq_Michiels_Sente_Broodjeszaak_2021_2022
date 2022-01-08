@@ -10,7 +10,7 @@ public class LoadSaveStrategyFactory {
             Object loadSaveStrategyObject = loadSaveStrategyClass.newInstance();
             loadSaveStrategy = (LoadSaveStrategy) loadSaveStrategyObject;
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return loadSaveStrategy;
     }

@@ -1,14 +1,14 @@
 package model.kortingStrategies;
 
 public class KortingStrategyFactory {
-    public static KortingStrategy KortingStrategyFactory(String kortingString){
-        KortingStrategy kortingStrategy = null;
-
+    public static KortingStrategy createKortingStrategy(String kortingString) {
         KortingStrategyEnum kortingStrategyEnum = KortingStrategyEnum.valueOf(kortingString);
+        String classPath = kortingStrategyEnum.getClassPath();
+        KortingStrategy kortingStrategy = null;
         try{
-            kortingStrategy = (KortingStrategy) Class.forName(String.valueOf(kortingStrategyEnum.getTekst())).getConstructor().newInstance();
-        }catch (Exception e){
-
+            kortingStrategy = (KortingStrategy) Class.forName(classPath).newInstance();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
         return kortingStrategy;
     }
