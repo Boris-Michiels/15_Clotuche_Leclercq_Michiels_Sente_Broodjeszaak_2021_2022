@@ -25,6 +25,7 @@ public class BestelFacade implements Subject {
     public void nieuweBestelling() {
         this.bestelling = new Bestelling();
         notifyObservers(BestellingEvents.NIEUWE_BESTELLING);
+        bestelling.startBestelling();
     }
 
     public void addBroodje(String broodje) {
@@ -115,9 +116,8 @@ public class BestelFacade implements Subject {
         for (String b : beleg.keySet()) {
             if (voorraadlijstBeleg.get(b) < beleg.get(b)) throw new IllegalArgumentException("Beleg " + b + " is niet meer genoeg in voorraad");
         }
-        bestelling.voegBestelLijnToe(dataBaseService.getBroodje(selectedItem.getNaambroodje()));
-        BestelLijn bestelLijn = getLijstBestellijnen().get(getLijstBestellijnen().size() - 1);
-        for (String b : selectedItem.getNamenbeleg()) addBeleg(b, bestelLijn);
+        List<Beleg> belegList = selectedItem.getNamenbeleg().stream().map(b -> dataBaseService.getBeleg(b)).collect(Collectors.toList());
+        bestelling.addIdemBestellijn(dataBaseService.getBroodje(selectedItem.getNaambroodje()), belegList);
         notifyObservers(BestellingEvents.TOEVOEGEN_BROODJE);
     }
 }

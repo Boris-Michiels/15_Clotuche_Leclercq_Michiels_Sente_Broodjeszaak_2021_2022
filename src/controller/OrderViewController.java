@@ -22,7 +22,6 @@ public class OrderViewController implements Observer {
 
     public void nieuweBestelling() {
         bestelFacade.nieuweBestelling();
-        orderView.setInWacht(false);
     }
 
     public void addBroodje(String broodje) {
@@ -67,6 +66,8 @@ public class OrderViewController implements Observer {
         orderView.updateStatusMenuKnoppen();
         if (e == BestellingEvents.TOEVOEGEN_BROODJE) {
             orderView.selectLastBestellijn();
+        } else if (e == BestellingEvents.NIEUWE_BESTELLING) {
+            orderView.setInWacht(false);
         }
     }
 
