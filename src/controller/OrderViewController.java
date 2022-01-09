@@ -11,8 +11,8 @@ public class OrderViewController implements Observer {
     private OrderView orderView;
     private BestelFacade bestelFacade;
 
-    public OrderViewController(OrderView orderView) {
-        bestelFacade = new BestelFacade();
+    public OrderViewController(OrderView orderView, BestelFacade bestelFacade) {
+        this.bestelFacade = bestelFacade;
         bestelFacade.addObservers(Arrays.asList(BestellingEvents.NIEUWE_BESTELLING, BestellingEvents.TOEVOEGEN_BROODJE, BestellingEvents.TOEVOEGEN_BELEG, BestellingEvents.VERWIJDEREN_BESTELLIJN), this);
         this.orderView = orderView;
         this.orderView.setOrderViewController(this);

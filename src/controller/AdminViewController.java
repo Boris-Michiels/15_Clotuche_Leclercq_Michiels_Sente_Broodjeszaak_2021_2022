@@ -1,9 +1,6 @@
 package controller;
 
-import model.Beleg;
-import model.BestellingEvents;
-import model.Broodje;
-import model.Observer;
+import model.*;
 import model.database.DataBaseService;
 import view.AdminView;
 
@@ -13,8 +10,11 @@ import java.util.Map;
 public class AdminViewController implements Observer {
     private AdminView adminView;
     private DataBaseService dataBaseService;
+    private BestelFacade bestelFacade;
 
-    public AdminViewController(AdminView adminView) {
+    public AdminViewController(AdminView adminView, BestelFacade bestelFacade) {
+        this.bestelFacade = bestelFacade;
+        bestelFacade.addObserver(BestellingEvents.NAAR_KEUKEN, this);
         dataBaseService = DataBaseService.getInstance();
         this.adminView = adminView;
         this.adminView.setAdminViewController(this);
